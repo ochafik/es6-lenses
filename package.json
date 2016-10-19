@@ -1,5 +1,5 @@
 {
-  "name": "lenses",
+  "name": "es6-lenses",
   "version": "0.1.0",
   "description": "Functional lenses for ES6",
   "main": "index.js",
@@ -14,7 +14,11 @@
     "test": "npm run tsc && mocha --reporter spec build/test",
     "test:w": "concurrently \"npm run tsc:w\" \"mocha --watch --reporter spec build/test\""
   },
-  "author": "",
+  "author": {
+    "name" : "Olivier Chafik",
+    "email" : "olivier.chafik@gmail.com",
+    "url" : "https://ochafik.com/"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^3.4.34",
