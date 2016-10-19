@@ -1,0 +1,9 @@
+.gitignore
+.travis.yml
+src
+test
+build
+node_modules
+rollup.config.js
+tsconfig.json
+index.html
