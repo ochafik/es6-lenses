@@ -7,7 +7,6 @@ function unsupported(name: string, ...args: any[]): Error {
     }
   }).join(', ')})}`)
 }
-//[...args].map(a => typeof a === 'string' ? a : '?')
 
 export class AbstractProxyHandler<T> implements ProxyHandler<T> {
   getPrototypeOf(target: T): any {

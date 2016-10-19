@@ -1,39 +1,6 @@
-import {AbstractProxyHandler} from './abstract_proxy_handler';
+import {select} from './selector';
 
-const propertiesSymbol = Symbol('properties');
 const unspecifiedValue: any = {};
-
-interface Selector {
-  properties: PropertyKey[];
-  children?: {[key: string]: (Selector|undefined)};
-  isEnumerated?: boolean;
-  // TODO(ochafik): Options on how to handle nested undefined, etc.
-}
-
-export class SelectorProxyHandler extends AbstractProxyHandler<Selector> {
-
-  has(target: T, p: PropertyKey): boolean {
-    return p === propertiesSymbol;
-  }
-  get(target: Selector, p: PropertyKey, receiver: any): any {
-    if (p === propertiesSymbol) {
-      return target.properties;
-    }
-    if (p === Symbol.iterator) {
-      target.isEnumerated = true;
-      let i = 0;
-      return (function*() {
-        while (true) {
-          // console.log("Returning new at i = " + i)
-          yield new Proxy<Selector>({properties: target.properties.concat(i++)}, this);
-        }
-      }).bind(this);
-    }
-    return new Proxy<Selector>({properties: target.properties.concat(p)}, this);
-  }
-}
-
-const rootSelector = new Proxy<Selector>({properties: []}, new SelectorProxyHandler());
 
 export interface Lens<T, V> {
     apply(target: T): V;
@@ -47,12 +14,7 @@ export interface Lens<T, V> {
 // }
 
 export function lens<T, V>(f: (_: T) => V): Lens<T, V> {
-  const result = f(rootSelector as any) as any;
-  if (!(propertiesSymbol in result)) {
-    throw new Error(`Invalid lens result: ${result.toString()}`);
-  }
-  const properties: string[] = result[propertiesSymbol];
-  return makeLens<T, V>(properties);
+  return makeLens<T, V>(select(f));
 }
 
 export function makeLens<T, V>(properties: string[]): Lens<T, V> {
