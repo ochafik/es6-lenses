@@ -3,7 +3,7 @@ import {AbstractProxyHandler} from './abstract_proxy_handler';
 const propertiesSymbol = Symbol('properties');
 const unspecifiedValue: any = {};
 
-interface Selector {
+export interface Selector {
   properties: PropertyKey[];
   children?: {[key: string]: (Selector|undefined)};
 }

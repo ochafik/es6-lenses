@@ -2,7 +2,8 @@
   "name": "es6-lenses",
   "version": "0.1.0",
   "description": "Functional lenses for ES6",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "start": "concurrently --kill-others \"npm run rollup:w\" \"npm run lite\" ",
     "lite": "lite-server",
@@ -23,15 +24,13 @@
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.32",
+    "chai": "^3.5.0",
     "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
+    "mocha": "^3.1.2",
     "rollup": "^0.36.3",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-watch": "^2.5.0",
     "typescript": "^2.0.3"
-  },
-  "dependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.1.2"
   }
 }
