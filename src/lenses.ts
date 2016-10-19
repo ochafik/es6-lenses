@@ -1,4 +1,4 @@
-import {select} from './selector';
+import selector from './selector';
 
 const unspecifiedValue: any = {};
 
@@ -14,7 +14,7 @@ export interface Lens<T, V> {
 // }
 
 export function lens<T, V>(f: (_: T) => V): Lens<T, V> {
-  return makeLens<T, V>(select(f));
+  return makeLens<T, V>(selector(f));
 }
 
 export function makeLens<T, V>(properties: string[]): Lens<T, V> {

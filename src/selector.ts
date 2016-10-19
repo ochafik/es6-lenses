@@ -29,10 +29,16 @@ export class SelectorProxyHandler extends AbstractProxyHandler<Selector> {
   }
 }
 
-const rootSelector = new Proxy<Selector>({properties: []}, new SelectorProxyHandler());
+let rootSelector: Proxy<Selector>;
+function getRootSelector(): any {
+  if (rootSelector == null) {
+     rootSelector = new Proxy<Selector>({properties: []}, new SelectorProxyHandler());
+  }
+  return rootSelector;
+}
 
-export function select(f: (_: any) => any): string[] {
-  const result = f(rootSelector as any) as any;
+export default function(f: (_: any) => any): string[] {
+  const result = f(getRootSelector()) as any;
   if (!(propertiesSymbol in result)) {
     throw new Error(`Invalid selector result: ${result}`);
   }
