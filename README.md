@@ -4,7 +4,7 @@ Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
 ## Usage
 
-```
+```js
 let xy = lens(_ => _.x.y);
 
 console.log(xy({x: {y: 123}})) // 123
