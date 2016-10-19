@@ -2,9 +2,16 @@
 
 Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
-## Usage
+## Usage (WORK IN PROGRESS)
 
+Add to your project with:
+```bash
+npm i --save es6-lenses
+```
+
+Then use as follows
 ```js
+import {lens} from 'es6-lenses';
 let xy = lens(_ => _.x.y);
 
 console.log(xy({x: {y: 123}})) // 123
