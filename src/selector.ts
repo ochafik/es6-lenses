@@ -29,7 +29,7 @@ export class SelectorProxyHandler extends AbstractProxyHandler<Selector> {
   }
 }
 
-let rootSelector: Proxy<Selector>;
+let rootSelector: ProxyHandler<Selector>;
 function getRootSelector(): any {
   if (rootSelector == null) {
      rootSelector = new Proxy<Selector>({properties: []}, new SelectorProxyHandler());

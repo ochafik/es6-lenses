@@ -8,17 +8,26 @@
     "lite": "lite-server",
     "rollup": "rollup -c",
     "rollup:w": "rollup -c -w",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
     "build": "npm run rollup",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run tsc && mocha --reporter spec build/test",
+    "test:w": "concurrently \"npm run tsc:w\" \"mocha --watch --reporter spec build/test\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
     "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
     "rollup": "^0.36.3",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-watch": "^2.5.0",
     "typescript": "^2.0.3"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
   }
 }

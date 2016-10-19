@@ -24,7 +24,9 @@ export function makeLens<T, V>(properties: string[]): Lens<T, V> {
   function handler(target: T, value: V = unspecifiedValue): any {
     if (value === unspecifiedValue) {
       // Getter
-      return properties.reduce((x, n) => typeof x === 'object' ? x[n] : undefined, target);
+      return properties.reduce(
+          (x: any, n: PropertyKey) => typeof x === 'object' ? x[n] : undefined,
+          target);
     } else {
       // Setter
       let lastTarget = propertiesButLast.reduce(getOrSetEmpty, target);
