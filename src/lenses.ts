@@ -3,8 +3,8 @@ import selector from './selector';
 const unspecifiedValue: any = {};
 
 export interface Lens<T, V> {
-    apply(target: T): V;
-    apply(target: T, value: V): V;
+    (target: T): V | undefined;
+    (target: T, value: V): V;
 }
 
 // export interface Lenses {

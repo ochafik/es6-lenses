@@ -1,8 +1,8 @@
 .gitignore
+.npmignore
 .travis.yml
-src
-test
-build
+build/src
+build/test
 node_modules
 rollup.config.js
 tsconfig.json
