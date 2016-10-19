@@ -1,4 +1,4 @@
-# ES6 Lenses
+# ES6 Lenses [![Build Status](https://travis-ci.org/ochafik/es6-lenses.svg?branch=master)](https://travis-ci.org/ochafik/es6-lenses)
 
 Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
