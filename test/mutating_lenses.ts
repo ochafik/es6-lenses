@@ -11,13 +11,13 @@ describe("mutating lenses", function() {
 
   it("set values", function() {
     let o = {x: {y: {z: 123}}};
-    xyz(o, 999);
+    expect(xyz(o, 999)).to.eq(o);
     expect(o.x.y.z).to.eql(999);
   });
 
   it("set values even if path doesnt exist yet", function() {
     let o = {} as any;
-    xyz(o, 789);
+    expect(xyz(o, 789)).to.eq(o);
     expect(o.x.y.z).to.eql(789);
   });
 });

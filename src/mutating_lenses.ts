@@ -1,24 +1,13 @@
+import {Lens} from './lens';
 import {selector} from './selector';
-export {selector} from './selector';
 
 const unspecifiedValue: any = {};
 
-export interface MutatingLens<T, V> {
-    (target: T): V | undefined;
-    (target: T, value: V): V;
+export function mutatingLens<T, V>(path: ((_: T) => V) | PropertyKey[]): Lens<T, V> {
+  return makeMutatingLens<T, V>(path instanceof Array ? path : selector(path));
 }
 
-// export interface MutatingLenses {
-//   lens<A, V>(f: (_: A) => V): Lens<A, V>;
-//   lens<A, B, V>(f: (_1: A, _2: B) => V): Lens<[A, B], V>;
-//   lens<A, B, C, V>(f: (_1: A, _2: B, _3: C) => V): Lens<[A, B, C], V>;
-// }
-
-export function mutatingLens<T, V>(f: (_: T) => V): MutatingLens<T, V> {
-  return makeMutatingLens<T, V>(selector(f));
-}
-
-export function makeMutatingLens<T, V>(properties: string[]): MutatingLens<T, V> {
+function makeMutatingLens<T, V>(properties: PropertyKey[]): Lens<T, V> {
   const propertiesButLast = properties.slice(0, -1);
   const lastProperty = properties[properties.length - 1];
 
@@ -31,7 +20,8 @@ export function makeMutatingLens<T, V>(properties: string[]): MutatingLens<T, V>
     } else {
       // Setter
       let lastTarget = propertiesButLast.reduce(getOrSetEmpty, target);
-      return lastTarget[lastProperty] = value;
+      lastTarget[lastProperty] = value;
+      return target;
     }
   };
   handler.toString = () => '_.' + properties.join('.');

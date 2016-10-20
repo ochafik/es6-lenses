@@ -1,23 +1,13 @@
+import {Lens} from './lens';
 import {selector} from './selector';
 
 const unspecifiedValue: any = {};
 
-export interface Lens<T, V> {
-    (target: T): V | undefined;
-    (target: T, value: V): T;
+export function lens<T, V>(path: ((_: T) => V) | PropertyKey[]): Lens<T, V> {
+  return makeLens<T, V>(path instanceof Array ? path : selector(path));
 }
 
-// export interface Lenses {
-//   lens<A, V>(f: (_: A) => V): Lens<A, V>;
-//   lens<A, B, V>(f: (_1: A, _2: B) => V): Lens<[A, B], V>;
-//   lens<A, B, C, V>(f: (_1: A, _2: B, _3: C) => V): Lens<[A, B, C], V>;
-// }
-
-export function lens<T, V>(f: (_: T) => V): Lens<T, V> {
-  return makeLens<T, V>(selector(f));
-}
-
-export function makeLens<T, V>(properties: string[]): Lens<T, V> {
+function makeLens<T, V>(properties: PropertyKey[]): Lens<T, V> {
   const lastProperty = properties[properties.length - 1];
 
   function handler(target: T, value: V = unspecifiedValue): any {
@@ -33,7 +23,7 @@ export function makeLens<T, V>(properties: string[]): Lens<T, V> {
   return handler as Lens<T, V>;
 }
 
-function deepCloneWithUpdate<T>(target: T, path: string[], value: any, clones: (Map<any, any> | null) = null): T {
+function deepCloneWithUpdate<T>(target: T, path: PropertyKey[], value: any, clones: (Map<any, any> | null) = null): T {
   if (path.length == 0) return value;
   let [prop, ...subPath] = path;
 

@@ -7,6 +7,7 @@ describe("lens", function() {
   it("get values", function() {
     expect(xyz({})).to.eql(undefined);
     expect(xyz({x: {y: {z: 666}}})).to.eql(666);
+    expect(lens(['x', 'y', 'z'])({x: {y: {z: 666}}})).to.eql(666);
   });
 
   it("clone with value update", function() {
