@@ -4,6 +4,8 @@ Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
 ## TODO
 
+- support tuple / object outputs (`lens(_ => [_.X, _.Y]) `) 
+- support tuple / object inputs 
 - Support Immutable.Map.updateIn and similar methods.
 
 ## Usage
