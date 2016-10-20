@@ -1,14 +1,12 @@
-import {AbstractProxyHandler} from './abstract_proxy_handler';
-
 const propertiesSymbol = Symbol('properties');
 const unspecifiedValue: any = {};
 
-export interface Selector {
+interface Selector {
   properties: PropertyKey[];
   children?: {[key: string]: (Selector|undefined)};
 }
 
-export class SelectorProxyHandler extends AbstractProxyHandler<Selector> {
+class SelectorProxyHandler implements ProxyHandler<Selector> {
   has(target: Selector, p: PropertyKey): boolean {
     return p === propertiesSymbol;
   }
@@ -37,7 +35,7 @@ function getRootSelector(): any {
   return rootSelector;
 }
 
-export default function(f: (_: any) => any): string[] {
+export function selector(f: (_: any) => any): string[] {
   const result = f(getRootSelector()) as any;
   if (!(propertiesSymbol in result)) {
     throw new Error(`Invalid selector result: ${result}`);
