@@ -30,7 +30,7 @@
     "tsc:w": "tsc -w",
     "build": "npm run rollup",
     "test": "npm run tsc && mocha --reporter spec build/test",
-    "test:w": "concurrently \"npm run tsc:w\" \"mocha --watch --reporter spec build/test\"",
+    "test:w": "concurrently --kill-others \"npm run tsc:w\" \"mocha --watch --reporter spec build/test\"",
     "prepublish": "npm run test && rm -fR build && npm run build"
   },
   "author": {
