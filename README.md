@@ -2,7 +2,7 @@
 
 Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects.
 
-```
+```js
 const {lens} = require("es6-lenses")
 const xy = lens(_ => _.x.y)
 let obj = {x: {y: 1}, z: 1}
