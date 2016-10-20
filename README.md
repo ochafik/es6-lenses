@@ -2,6 +2,10 @@
 
 Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
+## TODO
+
+- Turn setters into cloners instead of mutators (keep mutating variant around with explicit naming).
+
 ## Usage
 
 Add to your project with:
