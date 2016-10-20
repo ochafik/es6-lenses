@@ -18,8 +18,16 @@ Then use as follows
 import {lens} from 'es6-lenses';
 let xy = lens(_ => _.x.y);
 
-console.log(xy({x: {y: 123}})) // 123
 console.log(xy({})) // undefined
+
+let obj = {x: {y: 123}};
+console.log(xy(obj)) // 123
+xy(obj, 666);
+console.log(obj.x.y) // 666
+
+obj = {};
+xy(obj, 111); // Will create the path.
+console.log(obj.x.y) // 111
 ```
 
 ##  Bundling with rollup
@@ -39,7 +47,7 @@ Setup:
   npm --save-dev rollup-plugin-typescript
   npm --save-dev rollup-plugin-node-resolve
   ```
-  
+
 - Config (`rollup.config.js`):
 
   ```js
@@ -59,7 +67,7 @@ Setup:
     ]
   }
   ```
-  
+
 - Add the following scripts to your `package.json`:
 
   ```js
@@ -71,7 +79,7 @@ Setup:
     ...
   }
   ```
-  
+
 - Build with `npm run rollup`, continuously rebuild with `npm run rollup:w`
 
 ## Develop
