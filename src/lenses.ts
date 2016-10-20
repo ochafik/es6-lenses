@@ -1,4 +1,5 @@
-import selector from './selector';
+import {selector} from './selector';
+export {selector} from './selector';
 
 const unspecifiedValue: any = {};
 

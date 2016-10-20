@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import selector from "../src/selector";
+import {selector} from "../src/selector";
 
 describe("selector", function() {
   it("returns valid property paths", function() {

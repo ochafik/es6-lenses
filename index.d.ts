@@ -1,3 +1,5 @@
+export declare function selector(f: (_: any) => any): string[];
+
 export interface Lens<T, V> {
     (target: T): V | undefined;
     (target: T, value: V): V;

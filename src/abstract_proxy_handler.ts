@@ -10,7 +10,6 @@ function unsupported(name: string, ...args: any[]): Error {
 
 export class AbstractProxyHandler<T> implements ProxyHandler<T> {
   getPrototypeOf(target: T): any {
-    // return Proxy.prototype;
     throw unsupported('getPrototypeOf');
   }
   setPrototypeOf(target: T, v: any): boolean {
