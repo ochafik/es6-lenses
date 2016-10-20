@@ -1,7 +1,19 @@
 {
   "name": "es6-lenses",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Functional lenses for ES6",
+  "homepage": "https://github.com/ochafik/es6-lenses",
+  "bugs": {
+    "url": "https://github.com/ochafik/es6-lenses/issues"
+  },
+  "keywords": [
+    "lens",
+    "lenses",
+    "proxy",
+    "es6",
+    "es2016",
+    "functional"
+  ],
   "main": "./build/index.umd.js",
   "jsnext:main": "./build/index.es2015.js",
   "types": "./index.d.ts",
