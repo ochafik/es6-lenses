@@ -2,7 +2,7 @@
 
 Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
-## Usage (WORK IN PROGRESS)
+## Usage
 
 Add to your project with:
 ```bash
@@ -28,10 +28,16 @@ Notes:
 Setup:
 
 - Prerequisite:
+
   ```
-  npm --save-dev rollup rollup-watch rollup-plugin-typescript rollup-plugin-node-resolve
+  npm --save-dev rollup
+  npm --save-dev rollup-watch
+  npm --save-dev rollup-plugin-typescript
+  npm --save-dev rollup-plugin-node-resolve
   ```
+  
 - Config (`rollup.config.js`):
+
   ```js
   import typescript from 'rollup-plugin-typescript';
   import nodeResolve from 'rollup-plugin-node-resolve';
@@ -49,7 +55,9 @@ Setup:
     ]
   }
   ```
+  
 - Add the following scripts to your `package.json`:
+
   ```js
   {
     "scripts": {
@@ -59,6 +67,7 @@ Setup:
     ...
   }
   ```
+  
 - Build with `npm run rollup`, continuously rebuild with `npm run rollup:w`
 
 ## Develop
