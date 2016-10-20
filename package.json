@@ -1,9 +1,9 @@
 {
   "name": "es6-lenses",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "description": "Functional lenses for ES6",
-  "main": "./build/index.cjs.js",
-  "jsnext:main": "./build/index.es.js",
+  "main": "./build/index.umd.js",
+  "jsnext:main": "./build/index.es2015.js",
   "types": "./index.d.ts",
   "scripts": {
     "start": "concurrently --kill-others \"npm run rollup:w\" \"npm run lite\" ",

@@ -5,17 +5,13 @@ export default {
   sourceMap: true,
   targets: [
     {
-      format: 'iife',
+      format: 'umd',
       moduleName: 'lenses',
-      dest: 'build/index.js',
-    },
-    {
-      format: 'cjs',
-      dest: 'build/index.cjs.js',
+      dest: 'build/index.umd.js',
     },
     {
       format: 'es',
-      dest: 'build/index.es.js',
+      dest: 'build/index.es2015.js',
     },
   ],
   plugins: [

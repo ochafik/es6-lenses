@@ -18,6 +18,49 @@ console.log(xy({x: {y: 123}})) // 123
 console.log(xy({})) // undefined
 ```
 
+##  Bundling with rollup
+
+Notes:
+
+- Can't down-compile to ES5 as we're using ES6's [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+- UglifyJS might require a special ES6-friendly branch: please report any success :-)
+
+Setup:
+
+- Prerequisite:
+  ```
+  npm --save-dev rollup rollup-watch rollup-plugin-typescript rollup-plugin-node-resolve
+  ```
+- Config (`rollup.config.js`):
+  ```js
+  import typescript from 'rollup-plugin-typescript';
+  import nodeResolve from 'rollup-plugin-node-resolve';
+
+  export default {
+    entry: './main.ts',
+    format: 'iife',
+    dest: 'out.js',
+    sourceMap: true,
+    plugins: [
+      nodeResolve({jsnext: true, main: true}),
+      typescript({
+        typescript: require('typescript')
+      }),
+    ]
+  }
+  ```
+- Add the following scripts to your `package.json`:
+  ```js
+  {
+    "scripts": {
+      "rollup": "rollup -c",
+      "rollup:w": "rollup -c -w"
+    },
+    ...
+  }
+  ```
+- Build with `npm run rollup`, continuously rebuild with `npm run rollup:w`
+
 ## Develop
 
 ```bash
