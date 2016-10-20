@@ -1,7 +1,7 @@
 import typescript from 'rollup-plugin-typescript';
 
 export default {
-  entry: './src/lenses.ts',
+  entry: './src/index.ts',
   sourceMap: true,
   targets: [
     {

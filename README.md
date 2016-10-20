@@ -4,7 +4,7 @@ Proxy-powered functional lenses for ECMAScript 2015+ projects.
 
 ## TODO
 
-- Turn setters into cloners instead of mutators (keep mutating variant around with explicit naming).
+- Support Immutable.Map.updateIn and similar methods.
 
 ## Usage
 
@@ -22,13 +22,15 @@ console.log(xy({})) // undefined
 
 let obj = {x: {y: 123}};
 console.log(xy(obj)) // 123
-xy(obj, 666);
-console.log(obj.x.y) // 666
+let clone = xy(obj, 666); // obj is unmodified
+console.log(obj.x.y) // 123
+console.log(clone.x.y) // 666
 
 obj = {};
-xy(obj, 111); // Will create the path.
-console.log(obj.x.y) // 111
+xy(obj, 111); // {x: {y: 111}}
 ```
+
+There is also a mutating lens variant, which will update the objects in place instead of creating deeply-updated clones.
 
 ##  Bundling with rollup
 

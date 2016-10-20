@@ -4,20 +4,22 @@ import {lens} from "../src/lenses";
 describe("lens", function() {
   let xyz = lens<any, any>(_ => _.x.y.z);
 
-  it("gets values", function() {
+  it("get values", function() {
     expect(xyz({})).to.eql(undefined);
     expect(xyz({x: {y: {z: 666}}})).to.eql(666);
   });
 
-  it("sets values", function() {
+  it("clone with value update", function() {
     let o = {x: {y: {z: 123}}};
-    xyz(o, 999);
-    expect(o.x.y.z).to.eql(999);
+    let c = xyz(o, 999);
+    expect(o.x.y.z).to.eql(123);
+    expect(c.x.y.z).to.eql(999);
   });
 
-  it("sets values even if path doesnt exist yet", function() {
+  it("clone with value update even if path doesnt exist yet", function() {
     let o = {} as any;
-    xyz(o, 789);
-    expect(o.x.y.z).to.eql(789);
+    let c = xyz(o, 789);
+    expect(o.x).to.eql(undefined);
+    expect(c.x.y.z).to.eql(789);
   });
 });
