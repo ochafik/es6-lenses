@@ -1,6 +1,7 @@
 export interface Lens<T, V> {
     (target: T): V | undefined;
     (target: T, value: V): T;
+    update(target: T, f: (value: V) => V): T;
 }
 
 // export interface Lenses {

@@ -11,7 +11,7 @@ function makeMutatingLens<T, V>(properties: PropertyKey[]): Lens<T, V> {
   const propertiesButLast = properties.slice(0, -1);
   const lastProperty = properties[properties.length - 1];
 
-  function handler(target: T, value: V = unspecifiedValue): any {
+  const handler = function(target: T, value: V = unspecifiedValue): any {
     if (value === unspecifiedValue) {
       // Getter
       return properties.reduce(
@@ -23,9 +23,12 @@ function makeMutatingLens<T, V>(properties: PropertyKey[]): Lens<T, V> {
       lastTarget[lastProperty] = value;
       return target;
     }
+  } as Lens<T, V>;
+  handler.update = function(target: T, f: (value: V) => V): T {
+    return this(target, f(this(target)));
   };
   handler.toString = () => '_.' + properties.join('.');
-  return handler as any;
+  return handler;
 }
 
 function getOrSetEmpty(x: any, key: PropertyKey): any {

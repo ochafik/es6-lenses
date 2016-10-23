@@ -10,7 +10,7 @@ export function lens<T, V>(path: ((_: T) => V) | PropertyKey[]): Lens<T, V> {
 function makeLens<T, V>(properties: PropertyKey[]): Lens<T, V> {
   const lastProperty = properties[properties.length - 1];
 
-  function handler(target: T, value: V = unspecifiedValue): any {
+  const handler = function(target: T, value: V = unspecifiedValue): any {
     if (value === unspecifiedValue) {
       return properties.reduce(
           (x: any, n: PropertyKey) => typeof x === 'object' ? x[n] : undefined,
@@ -18,9 +18,12 @@ function makeLens<T, V>(properties: PropertyKey[]): Lens<T, V> {
     } else {
       return deepCloneWithUpdate<T>(target, properties, value);
     }
+  } as Lens<T, V>;
+  handler.update = function(target: T, f: (value: V) => V): T {
+    return this(target, f(this(target)));
   };
   handler.toString = () => '_.' + properties.join('.');
-  return handler as Lens<T, V>;
+  return handler;
 }
 
 function deepCloneWithUpdate<T>(target: T, path: PropertyKey[], value: any, clones: (Map<any, any> | null) = null): T {
