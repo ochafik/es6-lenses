@@ -1,8 +1,7 @@
-import {Lens} from './lens';
 import {ArrayLens} from './array_lens';
+import {Lens} from './lens';
+import {getLens, getRootLens} from './lens_proxy_handler';
 import {ObjectLens} from './object_lens';
-import {PathLens} from './path_lens';
-import {getRootLens, getLens} from './lens_proxy_handler';
 
 export function lens<T, V>(f: (target: T) => V): Lens<T, V> {
   return composeLens<T, V>(f(getRootLens()));

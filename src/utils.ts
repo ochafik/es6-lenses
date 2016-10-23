@@ -1,5 +1,11 @@
-export function deepCloneWithUpdate<T>(target: T, path: PropertyKey[], value: any, clones: (Map<any, any> | null) = null): T {
-  if (path.length == 0) return value;
+export function deepCloneWithUpdate<T>(
+    target: T, path: PropertyKey[],
+    value: any,
+    clones: (Map<any, any> | null) = null): T {
+
+  if (path.length === 0) {
+    return value;
+  }
   let [prop, ...subPath] = path;
 
   if (target == null) {
@@ -11,18 +17,24 @@ export function deepCloneWithUpdate<T>(target: T, path: PropertyKey[], value: an
   } else {
     if (clones != null) {
       const existingClone = clones.get(target);
-      if (existingClone != null) return existingClone;
+      if (existingClone != null) {
+        return existingClone;
+      }
     }
     const clone = Object.create(Object.getPrototypeOf(target));
-    if (clones == null) clones = new Map<any, any>();
+    if (clones == null) {
+      clones = new Map<any, any>();
+    }
     clones.set(target, clone);
     const subClone = deepCloneWithUpdate(clone[prop], subPath, value, clones);
 
     let found = false;
     for (const key of [...Object.getOwnPropertyNames(target), ...Object.getOwnPropertySymbols(target)]) {
       let desc = Object.getOwnPropertyDescriptor(target, key);
-      if (key == prop) {
-        if (!('value' in desc)) throw new Error(`Descriptor for property ${prop} has no value: ${JSON.stringify(desc)}`);
+      if (key === prop) {
+        if (!('value' in desc)) {
+          throw new Error(`Descriptor for property ${prop} has no value: ${JSON.stringify(desc)}`);
+        }
         desc.value = subClone;
         found = true;
       }

@@ -20,7 +20,7 @@ export class ArrayLens<T, V extends Array<any>> extends Lens<T, V> {
     return target;
   }
   update(target: T, value: V): T {
-    if (value == null || value.length != this.lenses.length) {
+    if (value == null || value.length !== this.lenses.length) {
       throw new Error(`Invalid value, expected array of length ${this.lenses.length}, got ${value}`);
     }
     let result = target;

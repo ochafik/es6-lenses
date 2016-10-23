@@ -17,6 +17,7 @@ class LensProxyHandler implements ProxyHandler<PathLens<any, any>> {
     }
     if (p === Symbol.iterator) {
       let i = 0;
+      // tslint:disable-next-line
       return (function*() {
         while (true) {
           // console.log("Returning new at i = " + i)

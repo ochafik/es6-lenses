@@ -4,14 +4,14 @@ export abstract class Lens<T, V> {
   abstract mutate(target: T, value: V): void;
   abstract update(target: T, value: V): T;
   andThen<W>(lens: Lens<V, W>): Lens<T, W> {
-    if (lens == null) throw 'null after';
+    if (lens == null) {
+      throw 'null after';
+    }
     return lens.after(this);
   }
   abstract after<A>(prefix: Lens<A, T>): Lens<A, V>;
 }
 
 export function updater<T, V>(lens: Lens<T, V>, f: (value: V | undefined) => V): (target: T) => T {
-  return function(target: T): T {
-    return lens.update(target, f(lens.get(target)));
-  };
+  return (target: T): T => lens.update(target, f(lens.get(target)));
 }
