@@ -6,15 +6,22 @@ Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects.
 const {lens} = require("es6-lenses")
 const xy = lens(_ => _.x.y)
 let obj = {x: {y: 1}, z: 1}
-console.log(`Get: ${xy.get(obj)}`) // 1
-console.log(`Update: ${JSON.stringify(xy.update(obj, 10))}`)
-console.log(`Update from scratch: ${JSON.stringify(xy.update({}, 10))}`)
+
+xy.get(obj)        // 1
+// Update returns a clone:
+xy.update(obj, 10) // {x: {y: 10}, z: 1}
+xy.update({}, 10)  // {x: {y: 10}}
 ```
+
+## About lenses
+
+- https://medium.com/@dtipson/functional-lenses-d1aba9e52254#.gh2bl2ym4
+- https://medium.com/@drboolean/lenses-with-immutable-js-9bda85674780#.r2a8on3rh
+- [Other lens libraries on npmjs](https://www.npmjs.com/search?q=lenses)
 
 ## TODO
 
-- support tuple / object outputs (`lens(_ => [_.X, _.Y]) `) 
-- support tuple / object inputs 
+- More examples about tuple / object inputs & outputs
 - Support Immutable.Map.updateIn and similar methods.
 
 ## Usage
