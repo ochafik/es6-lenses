@@ -3,10 +3,10 @@
   let xy = lenses.lens(_ => _.x.y);
 
   console.log(xy)
-  console.log(xy({x: 1}));
-  console.log(xy({x: {}}));
-  console.log(xy({x: {y: 123}}));
+  console.log(xy.get({x: 1}));
+  console.log(xy.get({x: {}}));
+  console.log(xy.get({x: {y: 123}}));
   let o = {x: {y: 0}};
-  console.log(xy(o, 10));;
+  console.log(xy.update(o, 10));;
   console.log(o);
 </script>
