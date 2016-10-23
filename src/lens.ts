@@ -1,11 +1,17 @@
-export interface Lens<T, V> {
-    (target: T): V | undefined;
-    (target: T, value: V): T;
-    update(target: T, f: (value: V) => V): T;
+export abstract class Lens<T, V> {
+  // TODO(ochafik): compile(): Lens<T, V>; // eval / Function(string)-based.
+  abstract get(target: T): V | undefined;
+  abstract mutate(target: T, value: V): void;
+  abstract update(target: T, value: V): T;
+  andThen<W>(lens: Lens<V, W>): Lens<T, W> {
+    if (lens == null) throw 'null after';
+    return lens.after(this);
+  }
+  abstract after<A>(prefix: Lens<A, T>): Lens<A, V>;
 }
 
-// export interface Lenses {
-//   lens<A, V>(f: (_: A) => V): Lens<A, V>;
-//   lens<A, B, V>(f: (_1: A, _2: B) => V): Lens<[A, B], V>;
-//   lens<A, B, C, V>(f: (_1: A, _2: B, _3: C) => V): Lens<[A, B, C], V>;
-// }
+export function updater<T, V>(lens: Lens<T, V>, f: (value: V | undefined) => V): (target: T) => T {
+  return function(target: T): T {
+    return lens.update(target, f(lens.get(target)));
+  };
+}

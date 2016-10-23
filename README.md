@@ -6,9 +6,9 @@ Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects.
 const {lens} = require("es6-lenses")
 const xy = lens(_ => _.x.y)
 let obj = {x: {y: 1}, z: 1}
-console.log(`Get: ${xy(obj)}`) // 1
-console.log(`Update: ${JSON.stringify(xy(obj, 10))}`)
-console.log(`Update from scratch: ${JSON.stringify(xy({}, 10))}`)
+console.log(`Get: ${xy.get(obj)}`) // 1
+console.log(`Update: ${JSON.stringify(xy.update(obj, 10))}`)
+console.log(`Update from scratch: ${JSON.stringify(xy.update({}, 10))}`)
 ```
 
 ## TODO
@@ -29,16 +29,16 @@ Then use as follows
 import {lens} from 'es6-lenses';
 let xy = lens(_ => _.x.y);
 
-console.log(xy({})) // undefined
+console.log(xy.get({})) // undefined
 
 let obj = {x: {y: 123}};
-console.log(xy(obj)) // 123
-let clone = xy(obj, 666); // obj is unmodified
+console.log(xy.get(obj)) // 123
+let clone = xy.update(obj, 666); // obj is unmodified
 console.log(obj.x.y) // 123
 console.log(clone.x.y) // 666
 
 obj = {};
-xy(obj, 111); // {x: {y: 111}}
+xy.update(obj, 111); // {x: {y: 111}}
 ```
 
 There is also a mutating lens variant, which will update the objects in place instead of creating deeply-updated clones.

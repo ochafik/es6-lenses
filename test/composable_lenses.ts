@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {lens} from "../src/composable_lenses";
+import {lens} from "../src";
 
 describe("lens", function() {
 
@@ -27,6 +27,22 @@ describe("lens", function() {
     let c = xyz.update(o, 789);
     expect(o.x).to.eql(undefined);
     expect(c.x.y.z).to.eql(789);
+  });
+
+  it("mutates values", function() {
+    let xyz = lens<any, any>(_ => _.x.y.z);
+
+    let o = {x: {y: {z: 123}}};
+    expect(xyz.mutate(o, 999)).to.eq(o);
+    expect(o.x.y.z).to.eql(999);
+  });
+
+  it("mutates values even if path doesnt exist yet", function() {
+    let xyz = lens<any, any>(_ => _.x.y.z);
+
+    let o = {} as any;
+    expect(xyz.mutate(o, 789)).to.eq(o);
+    expect(o.x.y.z).to.eql(789);
   });
 
   it("get composite array values", function() {
@@ -71,6 +87,5 @@ describe("lens", function() {
     expect(abObject.andThen(ab).toString()).to.eql('_.forA.b');
     expect(xyzObject.andThen(xy).toString()).to.eql('{z: _.w}');
     expect(abArray.andThen(lens((_: any) => _[0])).toString()).to.eql('_.a');
-    // expect(xy.after(ab).toString()).to.eql('[_.x.y.a, _.x.y.b]');
   });
 });
