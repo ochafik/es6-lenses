@@ -56,7 +56,6 @@
   },
   "engineStrict": true,
   "engines": {
-    "iojs": ">= 3.3.1",
     "node": ">= 6.0.0"
   },
   "runkitExampleFilename": "examples/node-example.js"
