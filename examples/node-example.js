@@ -21,7 +21,9 @@ assert.deepEqual(xy.update({}, -1), {x: {y: -1}})
 assert.deepEqual(yz.update({}, [-1, -2]), {x: {y: -1}, z: -2})
 
 // Mutate
-assert.strictEqual(xy.mutate(obj, 666), obj);
-assert.deepEqual(obj, {x: {y: 666}, z: 2});
-assert.strictEqual(yz.mutate(obj, [111, 222]), obj);
-assert.deepEqual(obj, {x: {y: 111}, z: 222});
+assert.strictEqual(xy.mutate(obj, 666), obj)
+assert.deepEqual(obj, {x: {y: 666}, z: 2})
+assert.strictEqual(yz.mutate(obj, [111, 222]), obj)
+assert.deepEqual(obj, {x: {y: 111}, z: 222})
+
+console.log('OK!')

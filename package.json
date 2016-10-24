@@ -29,9 +29,9 @@
     "rollup:w": "rollup -c -w",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "test": "rm -fR build/test && npm run tsc && mocha --reporter spec build/test",
+    "test": "rm -fR build/test && npm run tsc && mocha --reporter spec build/test && npm run test:examples",
     "test:w": "rm -fR build/test && npm run tsc && concurrently --kill-others \"npm run tsc:w\" \"mocha --watch --reporter spec build/test\"",
-    "test:examples": "cd examples && npm i && npm test",
+    "test:examples": "cd examples && npm i --ignore-scripts && npm run examples",
     "prepublish": "npm run test && npm run lint && npm run test:examples && rm -fR build && npm run rollup"
   },
   "author": {
