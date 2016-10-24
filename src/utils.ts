@@ -1,19 +1,23 @@
+/// <reference path="../node_modules/immutable/dist/immutable.d.ts" />
+
 export function deepCloneWithUpdate<T>(
-    target: T, path: PropertyKey[],
+    target: T,
+    keyPath: PropertyKey[],
     value: any,
     clones: (Map<any, any> | null) = null): T {
 
-  if (path.length === 0) {
+  if (keyPath.length === 0) {
     return value;
   }
-  let [prop, ...subPath] = path;
+  let [firstKey, ...subKeyPath] = keyPath;
 
   if (target == null) {
     const clone = Object.create(null);
-    clone[prop] = deepCloneWithUpdate(clone, subPath, value, clones);
+    clone[firstKey] = deepCloneWithUpdate(clone, subKeyPath, value, clones);
     return clone;
-  // } else if (target instanceof Immutable.Map) {
-  // TODO
+  } else if (typeof Immutable !== 'undefined' && target instanceof Immutable.Map) {
+    let map = target as any as Immutable.Map<any, any>;
+    return map.setIn(keyPath, value) as any as T;
   } else {
     if (clones != null) {
       const existingClone = clones.get(target);
@@ -26,14 +30,14 @@ export function deepCloneWithUpdate<T>(
       clones = new Map<any, any>();
     }
     clones.set(target, clone);
-    const subClone = deepCloneWithUpdate(clone[prop], subPath, value, clones);
+    const subClone = deepCloneWithUpdate(clone[firstKey], subKeyPath, value, clones);
 
     let found = false;
     for (const key of [...Object.getOwnPropertyNames(target), ...Object.getOwnPropertySymbols(target)]) {
       let desc = Object.getOwnPropertyDescriptor(target, key);
-      if (key === prop) {
+      if (key === firstKey) {
         if (!('value' in desc)) {
-          throw new Error(`Descriptor for property ${prop} has no value: ${JSON.stringify(desc)}`);
+          throw new Error(`Descriptor for property ${firstKey} has no value: ${JSON.stringify(desc)}`);
         }
         desc.value = subClone;
         found = true;
@@ -41,7 +45,7 @@ export function deepCloneWithUpdate<T>(
       Object.defineProperty(clone, key, desc);
     }
     if (!found) {
-      clone[prop] = subClone;
+      clone[firstKey] = subClone;
     }
     return clone;
   }
