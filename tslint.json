@@ -7,6 +7,7 @@
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-internal-module": true,
+        "no-reference": false,
         "no-trailing-whitespace": true,
         "no-var-keyword": true,
         "one-line": [true, "check-open-brace", "check-whitespace"],
