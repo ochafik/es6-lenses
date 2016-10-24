@@ -15,8 +15,10 @@ xy.update({}, 10)  // {x: {y: 10}}
 
 ## About lenses
 
-- https://medium.com/@dtipson/functional-lenses-d1aba9e52254#.gh2bl2ym4
-- https://medium.com/@drboolean/lenses-with-immutable-js-9bda85674780#.r2a8on3rh
+- [Functional Lenses, How Do They Work
+](https://medium.com/@dtipson/functional-lenses-d1aba9e52254#.gh2bl2ym4)
+- [Lenses with Immutable.js
+](https://medium.com/@drboolean/lenses-with-immutable-js-9bda85674780#.r2a8on3rh)
 - [Other lens libraries on npmjs](https://www.npmjs.com/search?q=lenses)
 
 ## TODO
