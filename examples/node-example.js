@@ -1,4 +1,5 @@
-// Important: please select Node 6.x in the drop-down below, as this example requires ES6
+// Important: this example requires ES6 support.
+// When running in runkit, please select Node 6.x in the drop-down below.
 
 const assert = require('assert');
 const {lens} = require("es6-lenses")
