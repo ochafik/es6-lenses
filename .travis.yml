@@ -9,3 +9,7 @@ cache:
     - examples/node_modules
 before_install:
   - npm config set engine-strict true
+install:
+  - npm install
+  - npm link --ignore-scripts
+  - cd examples && npm link es6-lenses && npm test

@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "examples": "node node-example.js"
+    "test": "node node-example.js"
   },
   "dependencies": {
     "es6-lenses": "file:.."
