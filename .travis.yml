@@ -4,6 +4,8 @@ node_js:
   - 6.0
 cache:
   directories:
+    - $HOME/.npm
     - node_modules
+    - examples/node_modules
 before_install:
   - npm config set engine-strict true
