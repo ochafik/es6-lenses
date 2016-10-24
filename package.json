@@ -1,6 +1,6 @@
 {
   "name": "es6-lenses",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Functional lenses for ES6",
   "homepage": "https://github.com/ochafik/es6-lenses",
   "repository": {
