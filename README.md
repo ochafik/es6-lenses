@@ -5,12 +5,17 @@ Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects.
 ```js
 const {lens} = require("es6-lenses")
 const xy = lens(_ => _.x.y)
-let obj = {x: {y: 1}, z: 1}
+let obj = {x: {y: 'y'}, z: 'z'}
 
-xy.get(obj)        // 1
+xy.get(obj)        // 'y'
 // Update returns a clone:
-xy.update(obj, 10) // {x: {y: 10}, z: 1}
+xy.update(obj, 10) // {x: {y: 10}, z: 'z'}
 xy.update({}, 10)  // {x: {y: 10}}
+
+// Composite lenses work well:
+const y_z = lens(_ => [_.x.y, {z: _.z}])
+y_z.get(obj) // ['y', {z: 'z'}]
+y_z.update(obj, ['yy', {z: 'zz'}]) // {x: {y: 'yy'}, z: 'zz'}
 ```
 
 ## About lenses
