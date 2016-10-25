@@ -19,9 +19,10 @@ xy.update({}, 10)  // {x: {y: 10}}
 ](https://medium.com/@dtipson/functional-lenses-d1aba9e52254#.gh2bl2ym4)
 - [Lenses with Immutable.js
 ](https://medium.com/@drboolean/lenses-with-immutable-js-9bda85674780#.r2a8on3rh)
-- Great preexisting lens libraries ([see npmjs](https://www.npmjs.com/search?q=lenses)):
+- Great pre-existing lens libraries ([see npmjs](https://www.npmjs.com/search?q=lenses)):
   - https://github.com/calmm-js/partial.lenses
   - https://github.com/roman01la/js-lenses
+  - https://github.com/fantasyland/fantasy-lenses
   - https://github.com/tomasdeml/lenticular.ts
   - https://github.com/beezee/statelens
 
