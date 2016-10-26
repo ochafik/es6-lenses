@@ -16,7 +16,8 @@ xy.set(obj, 10) // {x: {y: 10}, z: 2}
 // Composite lenses work well:
 const y_z = lens([_.x.y, {z: _.z}])
 y_z.get(obj) // ['y', {z: 'z'}]
-y_z.set(obj, ['yy', {z: 'zz'}]) // {x: {y: 'yy'}, z: 'zz'}
+y_z.set(obj, ['yy', {z: 'zz'}])
+// {x: {y: 'yy'}, z: 'zz'}
 ```
 
 Note: `.set` deeply clones objects (and is [Immutable.Map](https://facebook.github.io/immutable-js/docs/#/Map)-aware), while `.mutate` attempts to modify them in-place.
