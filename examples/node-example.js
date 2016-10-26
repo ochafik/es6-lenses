@@ -1,11 +1,17 @@
 // Important: this example requires ES6 support.
 
 const assert = require('assert');
-const {lens} = require("es6-lenses")
+const {_, lens} = require("es6-lenses")
 
 const obj = {x: {y: 1}, z: 2}
-const xy = lens(_ => _.x.y)
-const yz = lens(_ => [_.x.y, _.z])
+
+// Flow / TypeScript:
+//         lens((_: typeof obj) => _.x.y)
+const xy = lens(_.x.y)
+
+// Flow / TypeScript:
+//         lens((_: typeof obj) => [_.x.y, _.z])
+const yz = lens([_.x.y, _.z])
 
 // Get
 assert.deepEqual(xy.get(obj), 1)
