@@ -10,7 +10,6 @@ describe("lens", () => {
 
     expect(xyz.get({})).to.eql([undefined, undefined]);
     expect(xyz.get({w: 1, x: {y: {z: 666}}})).to.eql([666, 1]);
-    // expect(lens(['x', 'y', 'z']).get({x: {y: {z: 666}}})).to.eql(666);
   });
 
   it("get path values", () => {
@@ -18,7 +17,6 @@ describe("lens", () => {
 
     expect(xyz.get({})).to.eql(undefined);
     expect(xyz.get({x: {y: {z: 666}}})).to.eql(666);
-    // expect(lens(['x', 'y', 'z']).get({x: {y: {z: 666}}})).to.eql(666);
   });
 
   it("clone with value set", () => {
@@ -89,7 +87,16 @@ describe("lens", () => {
     expect(xyz.set(o, {a: 'x2', b: [0, 'zoo']})).to.eql({w: 0, x: 'x2', y: {z: 'zoo'}});
   });
 
-  it("appends selectors", () => {
+  it("composes captured lenses.get calls", () => {
+    let xy = lens([_.x, _.y]) as any;
+    let yz = lens([_.a, ...xy.get(_.b)]);
+    // let yz = lens([_.a, (([x, y]) => [y, x])(x_y.get(_.b)) as any]);
+
+    expect(yz.toString()).to.eql("[_.a, _.b.x, _.b.y]");
+    expect(yz.get({a: 1, b: {x: 111, y: 222}})).to.eql([1, 111, 222]);
+  });
+
+  it("andThen appends selectors", () => {
     const ab = lens((_: any) => _.a.b);
     const xy = lens((_: any) => _.x.y);
     const zw = lens((_: any) => _.z.w);
