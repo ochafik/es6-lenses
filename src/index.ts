@@ -3,8 +3,13 @@ import {Lens} from './lens';
 import {getLens, getRootLens} from './lens_proxy_handler';
 import {ObjectLens} from './object_lens';
 
-export function lens<T, V>(f: (target: T) => V): Lens<T, V> {
-  return composeLens<T, V>(f(getRootLens()));
+export const _ = getRootLens();
+
+export function lens<T, V>(f: (((target: T) => V) | {} | Array<any>)): Lens<T, V> {
+  if (f instanceof Function) {
+    f = f(getRootLens());
+  }
+  return composeLens<T, V>(f);
 }
 
 function composeLens<T, V>(result: any): Lens<T, V> {

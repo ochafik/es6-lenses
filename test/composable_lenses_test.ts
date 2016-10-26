@@ -1,12 +1,20 @@
-import {lens} from "../src";
+import {lens, _} from "../src";
 import {expectImmutable} from './expect_immutable';
 import {expect} from 'chai';
 import Immutable = require('immutable'); 
 
 describe("lens", () => {
 
+  it("get path values with _ lenses", () => {
+    let xyz = lens([_.x.y.z, _.w]);
+
+    expect(xyz.get({})).to.eql([undefined, undefined]);
+    expect(xyz.get({x: {y: {z: 666}}, w: 1})).to.eql([666, 1]);
+    // expect(lens(['x', 'y', 'z']).get({x: {y: {z: 666}}})).to.eql(666);
+  });
+
   it("get path values", () => {
-    let xyz = lens<any, any>(_ => _.x.y.z);
+    let xyz = lens(_.x.y.z);
 
     expect(xyz.get({})).to.eql(undefined);
     expect(xyz.get({x: {y: {z: 666}}})).to.eql(666);
@@ -14,9 +22,9 @@ describe("lens", () => {
   });
 
   it("clone with value set", () => {
-    let xyz = lens<any, any>(_ => _.x.y.z);
-
     let o = {x: {y: {r: 1, z: 123}}};
+    let xyz = lens((_: typeof o) => _.x.y.z);
+
     let c = xyz.set(o, 999);
     expect(o.x.y.z).to.eql(123);
     expect(c.x.y.z).to.eql(999);
@@ -24,9 +32,9 @@ describe("lens", () => {
   });
 
   it("preserves identity when no real change", () => {
-    let xyz = lens<any, any>(_ => _.x.y.z);
-
-    let o = {x: {y: {z: 123}}};
+    let o = {x: {y: {r: 1, z: 123}}};
+    let xyz = lens((_: typeof o) => _.x.y.z);
+    
     expect(xyz.set(o, 123)).to.equal(o);
   });
 
@@ -40,15 +48,15 @@ describe("lens", () => {
   });
 
   it("mutates values", () => {
-    let xyz = lens<any, any>(_ => _.x.y.z);
-
-    let o = {x: {y: {z: 123}}};
+    let o = {x: {y: {r: 1, z: 123}}};
+    let xyz = lens((_: typeof o) => _.x.y.z);
+    
     expect(xyz.mutate(o, 999)).to.eq(o);
     expect(o.x.y.z).to.eql(999);
   });
 
   it("mutates values even if path doesnt exist yet", () => {
-    let xyz = lens<any, any>(_ => _.x.y.z);
+    let xyz = lens(_.x.y.z);
 
     let o = {} as any;
     expect(xyz.mutate(o, 789)).to.eq(o);
@@ -56,26 +64,26 @@ describe("lens", () => {
   });
 
   it("get composite array values", () => {
-    let xyz = lens<any, any>(_ => [_.x, _.y.z]);
-    expect(xyz.toString()).to.eql('[_.x, _.y.z]');
     let o = {w: 1, x: 'x', y: {z: 'z'}};
+    let xyz = lens((_: typeof o) => [_.x, _.y.z]);
 
+    expect(xyz.toString()).to.eql('[_.x, _.y.z]');
     expect(xyz.get(o)).to.eql(['x', 'z']);
     expect(xyz.set(o, ['x2', 'z2'])).to.eql({w: 1, x: 'x2', y: {z: 'z2'}});
   });
 
   it("get composite object values", () => {
-    let xyz = lens<any, any>(_ => ({a: _.x, b: _.y.z}));
-    expect(xyz.toString()).to.eql('{a: _.x, b: _.y.z}');
     let o = {w: 1, x: 'x', y: {z: 'z'}};
+    let xyz = lens((_: typeof o) => ({a: _.x, b: _.y.z}));
 
+    expect(xyz.toString()).to.eql('{a: _.x, b: _.y.z}');
     expect(xyz.get(o)).to.eql({a: 'x', b: 'z'});
     expect(xyz.set(o, {a: 'x2', b: 'z2'})).to.eql({w: 1, x: 'x2', y: {z: 'z2'}});
   });
 
   it("get nested composite values", () => {
-    let xyz = lens<any, any>(_ => ({a: _.x, b: [_.w, _.y.z]}));
     let o = {w: 1, x: 'x', y: {z: 'z'}};
+    let xyz = lens((_: typeof o) => ({a: _.x, b: [_.w, _.y.z]}));
 
     expect(xyz.get(o)).to.eql({a: 'x', b: [1, 'z']});
     expect(xyz.set(o, {a: 'x2', b: [0, 'zoo']})).to.eql({w: 0, x: 'x2', y: {z: 'zoo'}});
@@ -99,7 +107,7 @@ describe("lens", () => {
     expect(abArray.andThen(lens((_: any) => _[0])).toString()).to.eql('_.a');
   });
 
-  it("Supports Immutable.Map", () => {
+  it("supports Immutable.Map", () => {
     const map = Immutable.Map({x: 1, y: 2});
     const x = lens((_: any) => _.x);
     expect(x.get(map)).to.eql(1);
