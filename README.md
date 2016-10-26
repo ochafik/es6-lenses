@@ -3,15 +3,22 @@
 Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects.
 
 ```js
+// Install with `npm i --save es6-lenses`
 const {lens} = require("es6-lenses")
-const xy = lens(_ => _.x.y)
-let obj = {x: {y: 1}, z: 1}
 
-xy.get(obj)        // 1
-// Update returns a clone:
-xy.update(obj, 10) // {x: {y: 10}, z: 1}
-xy.update({}, 10)  // {x: {y: 10}}
+const obj = {x: {y: 1}, z: 2}
+const xy = lens(_ => _.x.y)
+const yzArray = lens(_ => [_.x.y, _.z])
+
+xy.get(obj) // 1
+yzArray.get(obj) // [1, 2]
+
+// .set deeply clones objects (unlike .mutate).
+xy.set(obj, 10) // {x: {y: 10}, z: 2}
+yzArray.set(obj, [11, 22]) // {x: {y: 11}, z: 22}
 ```
+
+Note: `.set` deeply clones objects (and is [Immutable.Map](https://facebook.github.io/immutable-js/docs/#/Map)-aware), while `.mutate` attempts to modify them in-place.
 
 ## About lenses
 
@@ -27,34 +34,9 @@ xy.update({}, 10)  // {x: {y: 10}}
 
 ## TODO
 
+- Support filtered / mapped semantics: `lens(_ => _.addresses.map(_ => _.zipCode)).mapped.update(toUpperCase)`
 - More examples about tuple / object inputs & outputs
 - Support Immutable.Map.updateIn and similar methods.
-
-## Usage
-
-Add to your project with:
-```bash
-npm i --save es6-lenses
-```
-
-Then use as follows
-```js
-import {lens} from 'es6-lenses';
-let xy = lens(_ => _.x.y);
-
-console.log(xy.get({})) // undefined
-
-let obj = {x: {y: 123}};
-console.log(xy.get(obj)) // 123
-let clone = xy.update(obj, 666); // obj is unmodified
-console.log(obj.x.y) // 123
-console.log(clone.x.y) // 666
-
-obj = {};
-xy.update(obj, 111); // {x: {y: 111}}
-```
-
-There is also a mutating lens variant, which will update the objects in place instead of creating deeply-updated clones.
 
 ##  Bundling with rollup
 

@@ -11,20 +11,20 @@ describe("lens", () => {
     // expect(lens(['x', 'y', 'z']).get({x: {y: {z: 666}}})).to.eql(666);
   });
 
-  it("clone with value update", () => {
+  it("clone with value set", () => {
     let xyz = lens<any, any>(_ => _.x.y.z);
 
     let o = {x: {y: {z: 123}}};
-    let c = xyz.update(o, 999);
+    let c = xyz.set(o, 999);
     expect(o.x.y.z).to.eql(123);
     expect(c.x.y.z).to.eql(999);
   });
 
-  it("clone with value update even if path doesnt exist yet", () => {
+  it("clone with value set even if path doesnt exist yet", () => {
     let xyz = lens<any, any>(_ => _.x.y.z);
 
     let o = {} as any;
-    let c = xyz.update(o, 789);
+    let c = xyz.set(o, 789);
     expect(o.x).to.eql(undefined);
     expect(c.x.y.z).to.eql(789);
   });
@@ -51,7 +51,7 @@ describe("lens", () => {
     let o = {w: 1, x: 'x', y: {z: 'z'}};
 
     expect(xyz.get(o)).to.eql(['x', 'z']);
-    expect(xyz.update(o, ['x2', 'z2'])).to.eql({w: 1, x: 'x2', y: {z: 'z2'}});
+    expect(xyz.set(o, ['x2', 'z2'])).to.eql({w: 1, x: 'x2', y: {z: 'z2'}});
   });
 
   it("get composite object values", () => {
@@ -60,7 +60,7 @@ describe("lens", () => {
     let o = {w: 1, x: 'x', y: {z: 'z'}};
 
     expect(xyz.get(o)).to.eql({a: 'x', b: 'z'});
-    expect(xyz.update(o, {a: 'x2', b: 'z2'})).to.eql({w: 1, x: 'x2', y: {z: 'z2'}});
+    expect(xyz.set(o, {a: 'x2', b: 'z2'})).to.eql({w: 1, x: 'x2', y: {z: 'z2'}});
   });
 
   it("get nested composite values", () => {
@@ -68,7 +68,7 @@ describe("lens", () => {
     let o = {w: 1, x: 'x', y: {z: 'z'}};
 
     expect(xyz.get(o)).to.eql({a: 'x', b: [1, 'z']});
-    expect(xyz.update(o, {a: 'x2', b: [0, 'zoo']})).to.eql({w: 0, x: 'x2', y: {z: 'zoo'}});
+    expect(xyz.set(o, {a: 'x2', b: [0, 'zoo']})).to.eql({w: 0, x: 'x2', y: {z: 'zoo'}});
   });
 
   it("appends selectors", () => {

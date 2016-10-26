@@ -1,4 +1,4 @@
-import {selector} from "../src/selector";
+import {selector} from "./selector";
 import {expect} from 'chai';
 
 describe("selector", () => {

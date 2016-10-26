@@ -23,10 +23,10 @@ export class ObjectLens<T, V extends Object> extends Lens<T, V> {
     }
     return target;
   }
-  update(target: T, value: V): T {
+  set(target: T, value: V): T {
     let result = target;
     for (const [key, lens] of this.lenses) {
-      result = lens.update(result, (value as any)[key]);
+      result = lens.set(result, (value as any)[key]);
     }
     return result;
   }

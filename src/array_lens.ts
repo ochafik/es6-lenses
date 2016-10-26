@@ -19,13 +19,13 @@ export class ArrayLens<T, V extends Array<any>> extends Lens<T, V> {
     });
     return target;
   }
-  update(target: T, value: V): T {
+  set(target: T, value: V): T {
     if (value == null || value.length !== this.lenses.length) {
       throw new Error(`Invalid value, expected array of length ${this.lenses.length}, got ${value}`);
     }
     let result = target;
     this.lenses.forEach((lens, i) => {
-      result = lens.update(result, value[i]);
+      result = lens.set(result, value[i]);
     });
     return result;
   }

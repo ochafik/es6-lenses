@@ -25,7 +25,7 @@ export class PathLens<T, V> extends Lens<T, V> {
     lastTarget[lastProperty] = value;
     return target;
   }
-  update(target: T, value: V): T {
+  set(target: T, value: V): T {
     return deepCloneWithUpdate<T>(target, this.path, value);
   }
   after<A>(prefix: Lens<A, T>): Lens<A, V> {
