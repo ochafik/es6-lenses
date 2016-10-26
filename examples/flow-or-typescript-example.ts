@@ -1,11 +1,17 @@
 // Important: this example requires ES6 support.
 
-import * as assert from 'assert'
-import {_, lens} from 'es6-lenses'
+import * as assert from 'assert';
+import {_, lens} from 'es6-lenses';
 
 const obj = {x: {y: 1}, z: 2}
 
+// This lens isn't typed, yuck!
+const x = lens(_.x)
+
+// This is a Lens<typeof obj, number>:
 const xy = lens((_: typeof obj) => _.x.y)
+
+// This is a Lens<typeof obj, number[]>:
 const yz = lens((_: typeof obj) => [_.x.y, _.z])
 
 // Get

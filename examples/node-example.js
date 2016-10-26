@@ -1,15 +1,16 @@
 // Important: this example requires ES6 support.
+// Looking for typed examples? Open flow-or-typescript-example.ts
 
 const assert = require('assert');
 const {_, lens} = require("es6-lenses")
 
 const obj = {x: {y: 1}, z: 2}
 
-// Flow / TypeScript:
+// Typed (Flow / TypeScript) alternative:
 //         lens((_: typeof obj) => _.x.y)
 const xy = lens(_.x.y)
 
-// Flow / TypeScript:
+// Typed (Flow / TypeScript) alternative:
 //         lens((_: typeof obj) => [_.x.y, _.z])
 const yz = lens([_.x.y, _.z])
 
