@@ -11,5 +11,5 @@ export function expectImmutable(a: any) {
         }
       }
     }
-  }
+  };
 }

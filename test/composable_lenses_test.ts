@@ -1,6 +1,6 @@
 import {lens} from "../src";
-import {expect} from 'chai';
 import {expectImmutable} from './expect_immutable';
+import {expect} from 'chai';
 import Immutable = require('immutable'); 
 
 describe("lens", () => {
@@ -16,7 +16,7 @@ describe("lens", () => {
   it("clone with value set", () => {
     let xyz = lens<any, any>(_ => _.x.y.z);
 
-    let o = {x: {y: {z: 123, r: 1}}};
+    let o = {x: {y: {r: 1, z: 123}}};
     let c = xyz.set(o, 999);
     expect(o.x.y.z).to.eql(123);
     expect(c.x.y.z).to.eql(999);
