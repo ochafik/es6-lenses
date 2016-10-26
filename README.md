@@ -7,15 +7,15 @@ Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects.
 const {lens} = require("es6-lenses")
 
 const obj = {x: {y: 1}, z: 2}
+
 const xy = lens(_ => _.x.y)
-const yzArray = lens(_ => [_.x.y, _.z])
-
 xy.get(obj) // 1
-yzArray.get(obj) // [1, 2]
-
-// .set deeply clones objects (unlike .mutate).
 xy.set(obj, 10) // {x: {y: 10}, z: 2}
-yzArray.set(obj, [11, 22]) // {x: {y: 11}, z: 22}
+
+// Composite lenses work well:
+const y_z = lens(_ => [_.x.y, {z: _.z}])
+y_z.get(obj) // ['y', {z: 'z'}]
+y_z.set(obj, ['yy', {z: 'zz'}]) // {x: {y: 'yy'}, z: 'zz'}
 ```
 
 Note: `.set` deeply clones objects (and is [Immutable.Map](https://facebook.github.io/immutable-js/docs/#/Map)-aware), while `.mutate` attempts to modify them in-place.
@@ -26,9 +26,10 @@ Note: `.set` deeply clones objects (and is [Immutable.Map](https://facebook.gith
 ](https://medium.com/@dtipson/functional-lenses-d1aba9e52254#.gh2bl2ym4)
 - [Lenses with Immutable.js
 ](https://medium.com/@drboolean/lenses-with-immutable-js-9bda85674780#.r2a8on3rh)
-- Great preexisting lens libraries ([see npmjs](https://www.npmjs.com/search?q=lenses)):
+- Great pre-existing lens libraries ([see npmjs](https://www.npmjs.com/search?q=lenses)):
   - https://github.com/calmm-js/partial.lenses
   - https://github.com/roman01la/js-lenses
+  - https://github.com/fantasyland/fantasy-lenses
   - https://github.com/tomasdeml/lenticular.ts
   - https://github.com/beezee/statelens
 
