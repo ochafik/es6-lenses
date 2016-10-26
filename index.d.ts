@@ -7,3 +7,5 @@ export declare abstract class Lens<T, V> {
     after<A>(prefix: Lens<A, T>): Lens<A, V>;
 }
 export declare function lens<T, V>(f: (target: T) => V): Lens<T, V>;
+
+export declare const _: any;

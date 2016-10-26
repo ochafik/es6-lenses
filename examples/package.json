@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "test": "node node-example.js"
+    "test:node": "node node-example.js",
+    "test:tsc": "rm -fR build && tsc && node build/flow-or-typescript-example.js",
+    "test:flow": "cat flow-or-typescript-example.ts | flow check-contents",
+    "test": "npm run test:node && npm run test:tsc && npm run test:flow"
   },
   "dependencies": {
     "es6-lenses": "file:..",
@@ -9,5 +12,10 @@
   "engineStrict": true,
   "engines": {
     "node": ">= 6.0.0"
+  },
+  "devDependencies": {
+    "@types/assert": "0.0.29",
+    "@types/node": "^6.0.46",
+    "flow-bin": "^0.33.0"
   }
 }
