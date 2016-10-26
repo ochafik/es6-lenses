@@ -9,7 +9,7 @@ const obj = {x: {y: 1}, z: 2}
 
 // Typed (Flow / TypeScript) alternative:
 //         lens((_: typeof obj) => _.x.y)
-const xy = lens(_ => _.x.y)
+const xy = lens(_.x.y)
 xy.get(obj) // 1
 xy.set(obj, 10) // {x: {y: 10}, z: 2}
 
