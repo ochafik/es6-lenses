@@ -1,4 +1,4 @@
-import {lens, _} from "../src";
+import {_, lens} from "../src";
 import {expectImmutable} from './expect_immutable';
 import {expect} from 'chai';
 import Immutable = require('immutable'); 
@@ -9,7 +9,7 @@ describe("lens", () => {
     let xyz = lens([_.x.y.z, _.w]);
 
     expect(xyz.get({})).to.eql([undefined, undefined]);
-    expect(xyz.get({x: {y: {z: 666}}, w: 1})).to.eql([666, 1]);
+    expect(xyz.get({w: 1, x: {y: {z: 666}}})).to.eql([666, 1]);
     // expect(lens(['x', 'y', 'z']).get({x: {y: {z: 666}}})).to.eql(666);
   });
 
