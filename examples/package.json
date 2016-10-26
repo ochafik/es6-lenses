@@ -3,7 +3,8 @@
     "test": "node node-example.js"
   },
   "dependencies": {
-    "es6-lenses": "file:.."
+    "es6-lenses": "file:..",
+    "immutable": "^3.8.1"
   },
   "engineStrict": true,
   "engines": {

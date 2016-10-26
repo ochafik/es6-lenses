@@ -1,7 +1,7 @@
 import {ArrayLens} from './array_lens';
 import {Lens} from './lens';
 import {ObjectLens} from './object_lens';
-import {deepCloneWithUpdate, getOrSetEmpty} from './utils';
+import {deepCloneWithUpdate, getOrSetEmpty, isImmutableMap} from './utils';
 
 export class PathLens<T, V> extends Lens<T, V> {
   constructor(
@@ -13,11 +13,17 @@ export class PathLens<T, V> extends Lens<T, V> {
   }
 
   get(target: T): V {
+    if (isImmutableMap(target)) {
+      return target.getIn(this.path) as V;
+    }
     return this.path.reduce(
         (x: any, n: PropertyKey) => typeof x === 'object' ? x[n] : undefined,
         target);
   }
   mutate(target: T, value: V): T {
+    if (isImmutableMap(target)) {
+      throw new Error('Cannot mutate an Immutable object');
+    }
     const propertiesButLast = this.path.slice(0, -1);
     const lastProperty = this.path[this.path.length - 1];
 
@@ -27,6 +33,12 @@ export class PathLens<T, V> extends Lens<T, V> {
   }
   set(target: T, value: V): T {
     return deepCloneWithUpdate<T>(target, this.path, value);
+  }
+  update(target: T, f: (value: V | undefined) => (V | undefined)): T {
+    if (isImmutableMap(target)) {
+      return target.updateIn(this.path, f) as any as T;
+    }
+    return super.update(target, f);
   }
   after<A>(prefix: Lens<A, T>): Lens<A, V> {
     if (this.path.length === 0) {

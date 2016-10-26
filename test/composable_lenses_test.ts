@@ -1,5 +1,7 @@
 import {lens} from "../src";
 import {expect} from 'chai';
+import {expectImmutable} from './expect_immutable';
+import Immutable = require('immutable'); 
 
 describe("lens", () => {
 
@@ -16,6 +18,7 @@ describe("lens", () => {
 
     let o = {x: {y: {z: 123}}};
     let c = xyz.set(o, 999);
+    expect(xyz.set(o, 123)).to.not.equal(o);
     expect(o.x.y.z).to.eql(123);
     expect(c.x.y.z).to.eql(999);
   });
@@ -87,5 +90,12 @@ describe("lens", () => {
     expect(abObject.andThen(ab).toString()).to.eql('_.forA.b');
     expect(xyzObject.andThen(xy).toString()).to.eql('{z: _.w}');
     expect(abArray.andThen(lens((_: any) => _[0])).toString()).to.eql('_.a');
+  });
+
+  it("Supports Immutable.Map", () => {
+    const map = Immutable.Map({x: 1, y: 2});
+    const x = lens((_: any) => _.x);
+    expect(x.get(map)).to.eql(1);
+    expectImmutable(x.set(map, 10)).to.eql(Immutable.Map({x: 10, y: 2}));
   });
 });

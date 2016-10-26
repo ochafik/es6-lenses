@@ -1,5 +1,39 @@
 /// <reference path="../node_modules/immutable/dist/immutable.d.ts" />
 
+declare function require(path: string): any;
+
+let _Immutable: typeof Immutable;
+let _searchedForImmutable = false;
+function getImmutable(): typeof Immutable {
+  if (!_searchedForImmutable) {
+    _searchedForImmutable = true;
+    if (typeof Immutable !== 'undefined') {
+      _Immutable = Immutable;
+    } else if (typeof require !== 'undefined') {
+      try {
+        _Immutable = require('immutable');
+      } catch (_) {
+        // Do nothing.
+      }
+    }
+  }
+  return _Immutable;
+}
+
+export function isImmutableMap(x: any): x is Immutable.Map<any, any> {
+  const Immutable = getImmutable();
+  return Immutable && x instanceof Immutable.Map;
+}
+
+export function isEqual(a: any, b: any): boolean {
+  const Immutable = getImmutable();
+  if (Immutable) {
+    return Immutable.is(a, b);
+  } else {
+    return Object.is(a, b);
+  }
+}
+
 export function deepCloneWithUpdate<T>(
     target: T,
     keyPath: PropertyKey[],
@@ -15,9 +49,8 @@ export function deepCloneWithUpdate<T>(
     const clone = Object.create(null);
     clone[firstKey] = deepCloneWithUpdate(clone, subKeyPath, value, clones);
     return clone;
-  } else if (typeof Immutable !== 'undefined' && target instanceof Immutable.Map) {
-    let map = target as any as Immutable.Map<any, any>;
-    return map.setIn(keyPath, value) as any as T;
+  } else if (isImmutableMap(target)) {
+    return target.setIn(keyPath, value) as any as T;
   } else {
     if (clones != null) {
       const existingClone = clones.get(target);
