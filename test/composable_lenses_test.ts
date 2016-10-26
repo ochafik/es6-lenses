@@ -16,11 +16,18 @@ describe("lens", () => {
   it("clone with value set", () => {
     let xyz = lens<any, any>(_ => _.x.y.z);
 
-    let o = {x: {y: {z: 123}}};
+    let o = {x: {y: {z: 123, r: 1}}};
     let c = xyz.set(o, 999);
-    expect(xyz.set(o, 123)).to.not.equal(o);
     expect(o.x.y.z).to.eql(123);
     expect(c.x.y.z).to.eql(999);
+    expect(c.x.y.r).to.eql(1);
+  });
+
+  it("preserves identity when no real change", () => {
+    let xyz = lens<any, any>(_ => _.x.y.z);
+
+    let o = {x: {y: {z: 123}}};
+    expect(xyz.set(o, 123)).to.equal(o);
   });
 
   it("clone with value set even if path doesnt exist yet", () => {

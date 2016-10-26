@@ -52,6 +52,10 @@ export function deepCloneWithUpdate<T>(
   } else if (isImmutableMap(target)) {
     return target.setIn(keyPath, value) as any as T;
   } else {
+    const existingValue = (target as any)[firstKey];
+    if (isEqual(existingValue, value)) {
+      return target;
+    }
     if (clones != null) {
       const existingClone = clones.get(target);
       if (existingClone != null) {
@@ -63,8 +67,11 @@ export function deepCloneWithUpdate<T>(
       clones = new Map<any, any>();
     }
     clones.set(target, clone);
-    const subClone = deepCloneWithUpdate(clone[firstKey], subKeyPath, value, clones);
-
+    const subClone = deepCloneWithUpdate(existingValue, subKeyPath, value, clones);
+    if (isEqual(subClone, existingValue)) {
+      return target;
+    }
+    
     let found = false;
     for (const key of [...Object.getOwnPropertyNames(target), ...Object.getOwnPropertySymbols(target)]) {
       let desc = Object.getOwnPropertyDescriptor(target, key);
