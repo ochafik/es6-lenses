@@ -3,12 +3,12 @@
 Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects ([try it in your browser now!](https://runkit.com/npm/es6-lenses))
 
 ```js
-// Install with `npm i --save es6-lenses`
+// Install: `npm i --save es6-lenses`
 const {lens} = require("es6-lenses")
 const obj = {x: {y: 1}, z: 2}
 
-// Typed (Flow / TypeScript) alternative:
-//         lens((_: typeof obj) => _.x.y)
+// Flow / TypeScript alternative:
+//   lens((_: typeof obj) => _.x.y)
 const xy = lens(_.x.y)
 xy.get(obj) // 1
 xy.set(obj, 10) // {x: {y: 10}, z: 2}
