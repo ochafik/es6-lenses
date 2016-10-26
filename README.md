@@ -36,8 +36,8 @@ Note: `.set` deeply clones objects (and is [Immutable.Map](https://facebook.gith
 ## TODO
 
 - Support filtered / mapped semantics: `lens(_ => _.addresses.map(_ => _.zipCode)).mapped.update(toUpperCase)`
-- More examples about tuple / object inputs & outputs
-- Support Immutable.Map.updateIn and similar methods.
+- More examples about tuple / object inputs & outputs.
+- More tests, especially re/ integration with Immutable (cover interaction w/ Record)
 
 ##  Bundling with rollup
 
