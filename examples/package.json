@@ -4,5 +4,9 @@
   },
   "dependencies": {
     "es6-lenses": "file:.."
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">= 6.0.0"
   }
 }
