@@ -4,7 +4,7 @@ Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects ([try
 
 ```js
 // Install: `npm i --save es6-lenses`
-const {lens} = require("es6-lenses")
+const {lens, _} = require("es6-lenses")
 const obj = {x: {y: 1}, z: 2}
 
 // Flow / TypeScript alternative:
