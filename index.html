@@ -1,5 +1,23 @@
 <script src="build/index.umd.js"></script>
 <script>
+    const {lens, _} = lenses;
+
+    let xy = lens([_.x, _.y]);
+    let yz = lens([_.a, xy.get(_.b)]);
+    
+    console.log(yz.toString());
+    console.log(yz.get({a: 1, b: {x: 111, y: 222}}));
+/*
+    let xy = lens([_.x, _.y]);
+    let yz = lens([_.a, ...xy.get(_.b)]);
+    // let yz = lens((_: any) => [_.a, ...xy.get(_.b)]);
+    // let yz = lens([_.a, (([x, y]) => [y, x])(x_y.get(_.b)) as any]);
+
+    console.log(yz.toString())
+    console.log(yz.get({a: 1, b: {x: 111, y: 222}}))
+    console.log();
+    */
+/*
   let xy = lenses.lens(_ => _.x.y);
 
   console.log(xy)
@@ -9,4 +27,5 @@
   let o = {x: {y: 0}};
   console.log(xy.update(o, 10));;
   console.log(o);
+  */
 </script>

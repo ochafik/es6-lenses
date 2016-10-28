@@ -5,6 +5,10 @@ import Immutable = require('immutable');
 
 describe("lens", () => {
 
+  it("_ provides easy functions", () => {
+    expect(_.x.y({x: {y: 123}})).to.eql(123);
+  });
+
   it("get path values with _ lenses", () => {
     let xyz = lens([_.x.y.z, _.w]);
 
@@ -89,11 +93,12 @@ describe("lens", () => {
 
   it("composes captured lenses.get calls", () => {
     let xy = lens([_.x, _.y]) as any;
-    let yz = lens([_.a, ...xy.get(_.b)]);
+    let yz = lens([_.a, xy.get(_.b)]);
+    // let yz = lens((_: any) => [_.a, ...xy.get(_.b)]);
     // let yz = lens([_.a, (([x, y]) => [y, x])(x_y.get(_.b)) as any]);
 
-    expect(yz.toString()).to.eql("[_.a, _.b.x, _.b.y]");
-    expect(yz.get({a: 1, b: {x: 111, y: 222}})).to.eql([1, 111, 222]);
+    expect(yz.toString()).to.eql("[_.a, [_.b.x, _.b.y]]");
+    expect(yz.get({a: 1, b: {x: 111, y: 222}})).to.eql([1, [111, 222]]);
   });
 
   it("andThen appends selectors", () => {

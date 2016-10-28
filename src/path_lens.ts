@@ -1,11 +1,12 @@
 import {ArrayLens} from './array_lens';
 import {Lens} from './lens';
+import {getLens, wrapPathWithProxy} from './lens_proxy_handler';
 import {ObjectLens} from './object_lens';
 import {deepCloneWithUpdate, getOrSetEmpty, isImmutableMap} from './utils';
 
 export class PathLens<T, V> extends Lens<T, V> {
   constructor(
-      public readonly path: PropertyKey[]) {
+      public readonly path: ReadonlyArray<PropertyKey>) {
     super();
   }
   toString() {
@@ -13,8 +14,12 @@ export class PathLens<T, V> extends Lens<T, V> {
   }
 
   get(target: T): V {
+    const targetPath = getLens(target);
+    if (targetPath instanceof PathLens) {
+      return wrapPathWithProxy(targetPath.path.concat(this.path));
+    }
     if (isImmutableMap(target)) {
-      return target.getIn(this.path) as V;
+      return target.getIn(this.path as PropertyKey[]) as V;
     }
     return this.path.reduce(
         (x: any, n: PropertyKey) => typeof x === 'object' ? x[n] : undefined,
@@ -36,7 +41,7 @@ export class PathLens<T, V> extends Lens<T, V> {
   }
   update(target: T, f: (value: V | undefined) => (V | undefined)): T {
     if (isImmutableMap(target)) {
-      return target.updateIn(this.path, f) as any as T;
+      return target.updateIn(this.path as PropertyKey[], f) as any as T;
     }
     return super.update(target, f);
   }

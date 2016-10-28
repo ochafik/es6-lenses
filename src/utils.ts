@@ -36,7 +36,7 @@ export function isEqual(a: any, b: any): boolean {
 
 export function deepCloneWithUpdate<T>(
     target: T,
-    keyPath: PropertyKey[],
+    keyPath: ReadonlyArray<PropertyKey>,
     value: any,
     clones: (Map<any, any> | null) = null): T {
 
@@ -50,7 +50,7 @@ export function deepCloneWithUpdate<T>(
     clone[firstKey] = deepCloneWithUpdate(clone, subKeyPath, value, clones);
     return clone;
   } else if (isImmutableMap(target)) {
-    return target.setIn(keyPath, value) as any as T;
+    return target.setIn(keyPath as PropertyKey[], value) as any as T;
   } else {
     const existingValue = (target as any)[firstKey];
     if (isEqual(existingValue, value)) {
