@@ -2,6 +2,10 @@
 
 ...
 
+# Version 0.4.1 (20161029)
+
+- Fix handling of null targets
+
 # Version 0.4.0 (20161029)
 
 - Lenses and placeholder selectors are now functions:

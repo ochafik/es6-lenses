@@ -4,6 +4,19 @@ import {getLens, wrapPathWithProxy} from './lens_proxy_handler';
 import {ObjectLens} from './object_lens';
 import {deepCloneWithUpdate, getOrSetEmpty, isImmutableMap} from './utils';
 
+export function getPath<T, V>(target: T, path: ReadonlyArray<PropertyKey>): V | undefined {
+  const targetPath = getLens(target);
+  if (targetPath instanceof PathLens) {
+    return wrapPathWithProxy(targetPath.path.concat(path));
+  }
+  if (isImmutableMap(target)) {
+    return target.getIn(path as PropertyKey[]) as V;
+  }
+  return path.reduce(
+      (x: any, n: PropertyKey) => x != null && typeof x === 'object' ? x[n] : undefined,
+      target);
+}
+
 export class PathLens<T, V> extends Lens<T, V> {
   constructor(
       public readonly path: ReadonlyArray<PropertyKey>) {
@@ -13,17 +26,8 @@ export class PathLens<T, V> extends Lens<T, V> {
     return '_.' + this.path.join('.');
   }
 
-  get(target: T): V {
-    const targetPath = getLens(target);
-    if (targetPath instanceof PathLens) {
-      return wrapPathWithProxy(targetPath.path.concat(this.path));
-    }
-    if (isImmutableMap(target)) {
-      return target.getIn(this.path as PropertyKey[]) as V;
-    }
-    return this.path.reduce(
-        (x: any, n: PropertyKey) => x != null && typeof x === 'object' ? x[n] : undefined,
-        target);
+  get(target: T): V | undefined {
+    return getPath<T, V>(target, this.path);
   }
   mutate(target: T, value: V): T {
     if (isImmutableMap(target)) {

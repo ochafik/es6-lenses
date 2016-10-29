@@ -1,5 +1,5 @@
 import {Lens} from './lens';
-import {PathLens} from './path_lens';
+import {PathLens, getPath} from './path_lens';
 
 const lensSymbol = Symbol('lens');
 
@@ -60,7 +60,7 @@ const lensProxyHandler: ProxyHandler<ProxyTarget> = new class {
 
   apply(target: ProxyTarget, thisArg: any, argArray?: any): any {
     const obj = argArray[0]; 
-    return new PathLens(target.path).get(obj);
+    return getPath(obj, target.path);
   }
 };
 
