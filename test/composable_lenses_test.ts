@@ -110,12 +110,13 @@ describe("lens", () => {
 
   it("composes captured lenses.get calls", () => {
     let xy = lens([_.x, _.y]) as any;
-    let yz = lens([_.a, xy.get(_.b)]);
+    let yz = lens([_.a, xy.get(_.b), xy(_.c)]);
     // let yz = lens((_: any) => [_.a, ...xy.get(_.b)]);
     // let yz = lens([_.a, (([x, y]) => [y, x])(x_y.get(_.b)) as any]);
 
-    expect(yz.toString()).to.eql("[_.a, [_.b.x, _.b.y]]");
-    expect(yz.get({a: 1, b: {x: 111, y: 222}})).to.eql([1, [111, 222]]);
+    expect(yz.toString()).to.eql("[_.a, [_.b.x, _.b.y], [_.c.x, _.c.y]]");
+    expect(yz.get({a: 1, b: {x: 111, y: 222}}))
+        .to.eql([1, [111, 222], [undefined, undefined]]);
   });
 
   it("andThen appends selectors", () => {
