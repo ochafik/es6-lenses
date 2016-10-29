@@ -35,6 +35,17 @@ Note: `.set` deeply clones objects (and is [Immutable.Map](https://facebook.gith
   - https://github.com/tomasdeml/lenticular.ts
   - https://github.com/beezee/statelens
 
+## About Proxies
+
+- Metaprogramming in ES6:
+  - http://www.2ality.com/2014/12/es6-proxies.html
+  - https://ponyfoo.com/articles/es6-proxy-traps-in-depth
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Meta_programming
+
+- Proxy docs:
+  - https://github.com/tvcutsem/harmony-reflect/blob/master/doc/traps.md
+  - https://github.com/Microsoft/TypeScript/blob/master/lib/lib.es2015.proxy.d.ts
+
 ## TODO
 
 - Support filtered / mapped semantics: `lens(_ => _.addresses.map(_ => _.zipCode)).mapped.update(toUpperCase)`

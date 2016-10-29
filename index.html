@@ -7,6 +7,7 @@
     
     console.log(yz.toString());
     console.log(yz.get({a: 1, b: {x: 111, y: 222}}));
+    console.log(yz({a: 1, b: {x: 111, y: 222}}));
 /*
     let xy = lens([_.x, _.y]);
     let yz = lens([_.a, ...xy.get(_.b)]);

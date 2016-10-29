@@ -1,18 +1,19 @@
 import {ArrayLens} from './array_lens';
+import {Callable, makeLensCallable} from './callable_lens';
 import {Lens} from './lens';
-import {getLens, _} from './lens_proxy_handler';
+import {_, getLens} from './lens_proxy_handler';
 export {_} from './lens_proxy_handler';
 import {ObjectLens} from './object_lens';
 
-export function lens<T, V>(f: (((target: T) => V) | {} | Array<any>)): Lens<T, V> {
+export function lens<T, V>(f: (((target: T) => V) | {} | Array<any>)): Lens<T, V> & Callable<T, V> {
   const lens = getLens(f);
   if (lens != null) {
-    return lens;
+    return makeLensCallable<T, V, any>(lens);
   }
   if (f instanceof Function) {
     f = f(_);
   }
-  return composeLens<T, V>(f);
+  return makeLensCallable<T, V, any>(composeLens<T, V>(f));
 }
 
 function composeLens<T, V>(result: any): Lens<T, V> {

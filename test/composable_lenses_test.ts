@@ -9,6 +9,18 @@ describe("lens", () => {
     expect(_.x.y({x: {y: 123}})).to.eql(123);
   });
 
+  it("is a function", () => {
+    let o = {w: 1, x: 'x', y: {z: 'z'}};
+    let xyz = lens((_: typeof o) => [_.x, _.y.z]);
+    let xyz_ = lens([_.x, _.y.z]);
+    
+    expect(xyz(o)).to.eql(['x', 'z']);
+    expect(xyz_(o)).to.eql(['x', 'z']);
+
+    expect(_.x({x: 1})).to.eql(1);
+    expect(lens(_.x)({x: 1})).to.eql(1);
+  });
+
   it("get path values with _ lenses", () => {
     let xyz = lens([_.x.y.z, _.w]);
 
