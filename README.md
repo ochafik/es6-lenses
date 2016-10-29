@@ -1,4 +1,4 @@
-# ES6 Lenses [![Build Status](https://travis-ci.org/ochafik/es6-lenses.svg?branch=master)](https://travis-ci.org/ochafik/es6-lenses) [![npm version](https://badge.fury.io/js/es6-lenses.svg)](https://badge.fury.io/js/es6-lenses)
+# ES6 Lenses [![Build Status](https://travis-ci.org/ochafik/es6-lenses.svg?branch=master)](https://travis-ci.org/ochafik/es6-lenses) [![npm version](https://badge.fury.io/js/es6-lenses.svg)](https://badge.fury.io/js/es6-lenses) [changelog](./CHANGELOG.md)
 
 Proxy-powered functional lenses for ECMAScript 2015+ & TypeScript projects ([try it in your browser now!](https://runkit.com/npm/es6-lenses))
 
@@ -10,10 +10,16 @@ const obj = {x: {y: 1}, z: 2}
 // Flow / TypeScript alternative:
 //   lens((_: typeof obj) => _.x.y)
 const xy = lens(_.x.y)
+// Lenses can be called (== .get):
+xy(obj) // 1
 xy.get(obj) // 1
+// Set deep-clones the modified paths:
 xy.set(obj, 10) // {x: {y: 10}, z: 2}
 
-// Composite lenses work well:
+// Shorthand selectors are also functions:
+[{x: 1}, {x: 2}].map(_.x) // [1, 2]
+
+// Lenses can create nested structures:
 const y_z = lens([_.x.y, {z: _.z}])
 y_z.get(obj) // ['y', {z: 'z'}]
 y_z.set(obj, ['yy', {z: 'zz'}])

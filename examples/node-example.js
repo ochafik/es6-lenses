@@ -14,6 +14,10 @@ const xy = lens(_.x.y)
 //         lens((_: typeof obj) => [_.x.y, _.z])
 const yz = lens([_.x.y, _.z])
 
+// Direct call (~ get)
+assert.deepEqual(xy(obj), 1)
+assert.deepEqual(yz(obj), [1, 2])
+
 // Get
 assert.deepEqual(xy.get(obj), 1)
 assert.deepEqual(yz.get(obj), [1, 2])
