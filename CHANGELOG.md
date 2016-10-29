@@ -6,13 +6,11 @@
 
 - Lenses and placeholder selectors are now functions:
 
-  ```
-  [{x: 1}, {x: 2}].map(_.x)
-  // [1, 2]
+  ```javascript
+  [{x: 1}, {x: 2}].map(_.x) // [1, 2]
 
-  lens([_.x, _.y])
-    .set({z: 3}, [1, 2])
-  // {z: 3, x: 1, y: 2}
+  const xy = lens(_.x.y)
+  xy({x: {y: 1}}) // 1
   ```
   
 # Version 0.3.2 (20161027)
