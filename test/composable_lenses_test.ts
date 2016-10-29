@@ -31,8 +31,12 @@ describe("lens", () => {
   it("get path values", () => {
     let xyz = lens(_.x.y.z);
 
+    expect(xyz.get(null as any)).to.eql(undefined);
     expect(xyz.get({})).to.eql(undefined);
-    expect(xyz.get(null)).to.eql(undefined);
+    expect(xyz.get({x: null})).to.eql(undefined);
+    expect(xyz.get({x: {}})).to.eql(undefined);
+    expect(xyz.get({x: {y: null}})).to.eql(undefined);
+    expect(xyz.get({x: {y: {}}})).to.eql(undefined);
     expect(xyz.get({x: {y: {z: 666}}})).to.eql(666);
   });
 
