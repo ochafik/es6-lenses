@@ -4,7 +4,7 @@ import {PathLens} from './path_lens';
 const lensSymbol = Symbol('lens');
 
 export function getLens(target: any): (Lens<any, any> | null) {
-  // if (target == null) return null;
+  if (target == null) return null;
   return lensSymbol in target ? target[lensSymbol] as Lens<any, any> : null;
 }
 

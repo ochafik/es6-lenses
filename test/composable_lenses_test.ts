@@ -32,6 +32,7 @@ describe("lens", () => {
     let xyz = lens(_.x.y.z);
 
     expect(xyz.get({})).to.eql(undefined);
+    expect(xyz.get(null)).to.eql(undefined);
     expect(xyz.get({x: {y: {z: 666}}})).to.eql(666);
   });
 

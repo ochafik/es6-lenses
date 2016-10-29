@@ -22,7 +22,7 @@ export class PathLens<T, V> extends Lens<T, V> {
       return target.getIn(this.path as PropertyKey[]) as V;
     }
     return this.path.reduce(
-        (x: any, n: PropertyKey) => typeof x === 'object' ? x[n] : undefined,
+        (x: any, n: PropertyKey) => x != null && typeof x === 'object' ? x[n] : undefined,
         target);
   }
   mutate(target: T, value: V): T {
