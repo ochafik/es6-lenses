@@ -7,10 +7,7 @@ export function makeLensCallable<T, V, L extends Lens<T, V>>(lens: L): L & Calla
   let callable: Callable<T, V> = function(this: L, target: T): V | undefined {
     return this.get(target);
   };
-  Object.setPrototypeOf(callable, lens);
+  callable = Object.setPrototypeOf(callable, lens);
 
   return Function.prototype.bind.call(callable, callable);
-  // let boundCallable = Function.prototype.bind.call(callable, callable);
-  // Object.setPrototypeOf(boundCallable, callable);
-  // return boundCallable;
 }
